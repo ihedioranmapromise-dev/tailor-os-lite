@@ -5,6 +5,8 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-geist",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -19,6 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      </head>
       <body className={`${inter.variable} font-sans min-h-screen`}>
         {children}
       </body>

@@ -65,7 +65,6 @@ export type ShowroomItem = {
   description?: string;
 };
 
-/** Full shop identity — matches a real business setup */
 export type Shop = {
   slug: string;
   name: string;
@@ -85,7 +84,6 @@ export type Shop = {
   specialties?: string[];
   workingHours?: string;
   instagram?: string;
-  /** Owner profile for trust */
   owner: {
     fullName: string;
     title?: string;
@@ -97,32 +95,21 @@ export type Shop = {
 export const MAX_IMAGES_PER_STAGE = 2;
 export const MAX_VIDEOS_PER_STAGE = 1;
 
-/** Workshop-accurate stock: fabric, scissors, sewing machine, iron, measuring */
+/** Smaller Unsplash params for faster loads */
+const q = "w=640&q=70&auto=format";
 const IMG = {
-  fabricSelect:
-    "https://images.unsplash.com/photo-1558171813-4c0880cf059b?w=900&q=80",
-  measuring:
-    "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=900&q=80",
-  patternCut:
-    "https://images.unsplash.com/photo-1590736969955-71cc94c4b6b2?w=900&q=80",
-  scissorsFabric:
-    "https://images.unsplash.com/photo-1586075010923-2dd45799fb4d?w=900&q=80",
-  sewingMachine:
-    "https://images.unsplash.com/photo-1517677208171-0bc6725a3d60?w=900&q=80",
-  sewingHands:
-    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80",
-  ironPress:
-    "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=900&q=80",
-  finishedRack:
-    "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=80",
-  suitDetail:
-    "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=900&q=80",
-  atelier:
-    "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=900&q=80",
-  tailorPortrait:
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80",
-  logoMark:
-    "https://images.unsplash.com/photo-1517677208171-0bc6725a3d60?w=200&h=200&fit=crop&q=80",
+  fabricSelect: `https://images.unsplash.com/photo-1558171813-4c0880cf059b?${q}`,
+  measuring: `https://images.unsplash.com/photo-1509631179647-0177331693ae?${q}`,
+  patternCut: `https://images.unsplash.com/photo-1590736969955-71cc94c4b6b2?${q}`,
+  scissorsFabric: `https://images.unsplash.com/photo-1586075010923-2dd45799fb4d?${q}`,
+  sewingMachine: `https://images.unsplash.com/photo-1517677208171-0bc6725a3d60?${q}`,
+  sewingHands: `https://images.unsplash.com/photo-1558618666-fcd25c85cd64?${q}`,
+  ironPress: `https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?${q}`,
+  finishedRack: `https://images.unsplash.com/photo-1558769132-cb1aea458c5e?${q}`,
+  suitDetail: `https://images.unsplash.com/photo-1594938298603-c8148c4dae35?${q}`,
+  atelier: `https://images.unsplash.com/photo-1556905055-8f358a7a47b2?${q}`,
+  tailorPortrait: `https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&q=70&auto=format`,
+  logoMark: `https://images.unsplash.com/photo-1517677208171-0bc6725a3d60?w=160&h=160&fit=crop&q=70&auto=format`,
 };
 
 export const DEMO_SHOP: Shop = {
@@ -172,45 +159,17 @@ export const DEMO_ORDERS: Order[] = [
     note: "Fitting scheduled Thursday 2pm",
     mediaByStage: {
       "Order received": [
-        {
-          type: "image",
-          url: IMG.fabricSelect,
-          caption: "Fabric selected with client",
-        },
-        {
-          type: "image",
-          url: IMG.measuring,
-          caption: "Measurements locked",
-        },
+        { type: "image", url: IMG.fabricSelect, caption: "Fabric selected with client" },
+        { type: "image", url: IMG.measuring, caption: "Measurements locked" },
       ],
       Cutting: [
-        {
-          type: "image",
-          url: IMG.scissorsFabric,
-          caption: "Pattern laid and cut",
-        },
-        {
-          type: "image",
-          url: IMG.patternCut,
-          caption: "Pieces ready for sewing",
-        },
-        {
-          type: "video",
-          url: IMG.scissorsFabric,
-          caption: "Cut walkthrough (clip)",
-        },
+        { type: "image", url: IMG.scissorsFabric, caption: "Pattern laid and cut" },
+        { type: "image", url: IMG.patternCut, caption: "Pieces ready for sewing" },
+        { type: "video", url: IMG.scissorsFabric, caption: "Cut walkthrough (clip)" },
       ],
       Sewing: [
-        {
-          type: "image",
-          url: IMG.sewingMachine,
-          caption: "On the machine",
-        },
-        {
-          type: "image",
-          url: IMG.sewingHands,
-          caption: "Hand finish in progress",
-        },
+        { type: "image", url: IMG.sewingMachine, caption: "On the machine" },
+        { type: "image", url: IMG.sewingHands, caption: "Hand finish in progress" },
       ],
     },
     createdAt: "2026-11-05",
@@ -231,28 +190,12 @@ export const DEMO_ORDERS: Order[] = [
     stage: "Ready for pickup",
     mediaByStage: {
       "Pressing / finishing": [
-        {
-          type: "image",
-          url: IMG.ironPress,
-          caption: "Pressed and cleaned",
-        },
+        { type: "image", url: IMG.ironPress, caption: "Pressed and cleaned" },
       ],
       "Ready for pickup": [
-        {
-          type: "image",
-          url: IMG.finishedRack,
-          caption: "Ready on the rack",
-        },
-        {
-          type: "image",
-          url: IMG.suitDetail,
-          caption: "Final detail check",
-        },
-        {
-          type: "video",
-          url: IMG.finishedRack,
-          caption: "Ready for pickup (clip)",
-        },
+        { type: "image", url: IMG.finishedRack, caption: "Ready on the rack" },
+        { type: "image", url: IMG.suitDetail, caption: "Final detail check" },
+        { type: "video", url: IMG.finishedRack, caption: "Ready for pickup (clip)" },
       ],
     },
     createdAt: "2026-11-01",
@@ -276,11 +219,7 @@ export const DEMO_ORDERS: Order[] = [
     createdAt: "2026-11-07",
     mediaByStage: {
       "Order received": [
-        {
-          type: "image",
-          url: IMG.measuring,
-          caption: "Suit measurements taken",
-        },
+        { type: "image", url: IMG.measuring, caption: "Suit measurements taken" },
       ],
     },
   },
