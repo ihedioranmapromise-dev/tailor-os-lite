@@ -39,7 +39,7 @@ export default function JobPage() {
   }
 
   async function copyLink() {
-    const url = `${window.location.origin}/status/${order.id}`;
+    const url = `${window.location.origin}/status/${id}`;
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
