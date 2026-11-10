@@ -65,29 +65,92 @@ export type ShowroomItem = {
   description?: string;
 };
 
+/** Full shop identity — matches a real business setup */
 export type Shop = {
   slug: string;
   name: string;
+  legalName?: string;
   phone: string;
+  whatsapp?: string;
+  email?: string;
   address: string;
+  city?: string;
+  state?: string;
+  country?: string;
   logo?: string;
-  tagline?: string;
   coverImage?: string;
+  tagline?: string;
+  about?: string;
+  yearsInBusiness?: string;
+  specialties?: string[];
+  workingHours?: string;
+  instagram?: string;
+  /** Owner profile for trust */
+  owner: {
+    fullName: string;
+    title?: string;
+    photo?: string;
+    bio?: string;
+  };
 };
 
-/** Max 2 images + 1 short video per stage */
 export const MAX_IMAGES_PER_STAGE = 2;
 export const MAX_VIDEOS_PER_STAGE = 1;
+
+/** Workshop-accurate stock: fabric, scissors, sewing machine, iron, measuring */
+const IMG = {
+  fabricSelect:
+    "https://images.unsplash.com/photo-1558171813-4c0880cf059b?w=900&q=80",
+  measuring:
+    "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=900&q=80",
+  patternCut:
+    "https://images.unsplash.com/photo-1590736969955-71cc94c4b6b2?w=900&q=80",
+  scissorsFabric:
+    "https://images.unsplash.com/photo-1586075010923-2dd45799fb4d?w=900&q=80",
+  sewingMachine:
+    "https://images.unsplash.com/photo-1517677208171-0bc6725a3d60?w=900&q=80",
+  sewingHands:
+    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80",
+  ironPress:
+    "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=900&q=80",
+  finishedRack:
+    "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=80",
+  suitDetail:
+    "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=900&q=80",
+  atelier:
+    "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=900&q=80",
+  tailorPortrait:
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80",
+  logoMark:
+    "https://images.unsplash.com/photo-1517677208171-0bc6725a3d60?w=200&h=200&fit=crop&q=80",
+};
 
 export const DEMO_SHOP: Shop = {
   slug: "atelier-noir",
   name: "Atelier Noir",
+  legalName: "Atelier Noir Tailoring Co.",
   phone: "+234 803 000 0000",
-  address: "Studio district · By appointment",
+  whatsapp: "+234 803 000 0000",
+  email: "hello@ateliernoir.demo",
+  address: "12 Studio Lane",
+  city: "Lagos",
+  state: "Lagos",
+  country: "Nigeria",
+  logo: IMG.logoMark,
+  coverImage: IMG.atelier,
   tagline: "Bespoke tailoring with clear progress",
-  logo: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=200&h=200&fit=crop&q=80",
-  coverImage:
-    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1400&q=80",
+  about:
+    "We cut and sew made-to-measure pieces with a transparent production timeline. Every client gets a tracking code and stage updates with workshop photos.",
+  yearsInBusiness: "8",
+  specialties: ["Senator", "Suits", "Agbada", "Corporate wear"],
+  workingHours: "Mon–Sat · 9:00 – 18:00",
+  instagram: "@ateliernoir",
+  owner: {
+    fullName: "Daniel Okeke",
+    title: "Head tailor & founder",
+    photo: IMG.tailorPortrait,
+    bio: "Trained in classic pattern cutting. Focused on fit, finish, and honest delivery dates.",
+  },
 };
 
 export const DEMO_ORDERS: Order[] = [
@@ -111,37 +174,42 @@ export const DEMO_ORDERS: Order[] = [
       "Order received": [
         {
           type: "image",
-          url: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
-          caption: "Fabric confirmed",
+          url: IMG.fabricSelect,
+          caption: "Fabric selected with client",
         },
         {
           type: "image",
-          url: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800&q=80",
-          caption: "Reference style",
+          url: IMG.measuring,
+          caption: "Measurements locked",
         },
       ],
       Cutting: [
         {
           type: "image",
-          url: "https://images.unsplash.com/photo-1558171813-4c0880cf059b?w=800&q=80",
-          caption: "Pieces cut",
+          url: IMG.scissorsFabric,
+          caption: "Pattern laid and cut",
+        },
+        {
+          type: "image",
+          url: IMG.patternCut,
+          caption: "Pieces ready for sewing",
         },
         {
           type: "video",
-          url: "https://images.unsplash.com/photo-1558171813-4c0880cf059b?w=800&q=80",
+          url: IMG.scissorsFabric,
           caption: "Cut walkthrough (clip)",
         },
       ],
       Sewing: [
         {
           type: "image",
-          url: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80",
-          caption: "Body in progress",
+          url: IMG.sewingMachine,
+          caption: "On the machine",
         },
         {
           type: "image",
-          url: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
-          caption: "Sleeve detail",
+          url: IMG.sewingHands,
+          caption: "Hand finish in progress",
         },
       ],
     },
@@ -162,21 +230,28 @@ export const DEMO_ORDERS: Order[] = [
     dueDate: "2026-11-12",
     stage: "Ready for pickup",
     mediaByStage: {
+      "Pressing / finishing": [
+        {
+          type: "image",
+          url: IMG.ironPress,
+          caption: "Pressed and cleaned",
+        },
+      ],
       "Ready for pickup": [
         {
           type: "image",
-          url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80",
-          caption: "Finished piece",
+          url: IMG.finishedRack,
+          caption: "Ready on the rack",
         },
         {
           type: "image",
-          url: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&q=80",
-          caption: "Detail shot",
+          url: IMG.suitDetail,
+          caption: "Final detail check",
         },
         {
           type: "video",
-          url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80",
-          caption: "360° preview (clip)",
+          url: IMG.finishedRack,
+          caption: "Ready for pickup (clip)",
         },
       ],
     },
@@ -199,7 +274,15 @@ export const DEMO_ORDERS: Order[] = [
     dueDate: "2026-11-18",
     stage: "Cutting",
     createdAt: "2026-11-07",
-    mediaByStage: {},
+    mediaByStage: {
+      "Order received": [
+        {
+          type: "image",
+          url: IMG.measuring,
+          caption: "Suit measurements taken",
+        },
+      ],
+    },
   },
 ];
 
@@ -209,15 +292,15 @@ export const DEMO_SHOWROOM: ShowroomItem[] = [
     title: "Classic Senator",
     category: "Senator",
     price: 48000,
-    image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
+    image: IMG.suitDetail,
     description: "Clean lines, breathable fabric. Made to measure.",
   },
   {
     id: "sr-2",
-    title: "Evening Gown",
+    title: "Evening silhouette",
     category: "Gown",
     price: 75000,
-    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80",
+    image: IMG.finishedRack,
     description: "Structured bodice, soft fall.",
   },
   {
@@ -225,15 +308,15 @@ export const DEMO_SHOWROOM: ShowroomItem[] = [
     title: "Two-piece Suit",
     category: "Suit",
     price: 110000,
-    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80",
+    image: IMG.atelier,
     description: "Boardroom ready. Full canvas option.",
   },
   {
     id: "sr-4",
-    title: "Agbada Set",
+    title: "Workshop craft",
     category: "Agbada",
     price: 150000,
-    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800&q=80",
+    image: IMG.sewingMachine,
     description: "Ceremonial weight with modern cut.",
   },
 ];

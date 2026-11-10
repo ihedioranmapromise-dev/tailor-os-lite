@@ -56,6 +56,7 @@ export default function StatusPage({
 
   const current = stageIndex(order.stage);
   const progress = ((current + 1) / STAGES.length) * 100;
+  const wa = (DEMO_SHOP.whatsapp || DEMO_SHOP.phone).replace(/\D/g, "");
 
   return (
     <div className="min-h-screen pb-16">
@@ -143,9 +144,25 @@ export default function StatusPage({
           })}
         </ol>
 
-        <div className="mt-4 flex flex-col gap-2">
+        {/* Owner trust */}
+        <div className="card-solid mt-2 mb-4 flex items-center gap-3 p-4">
+          {DEMO_SHOP.owner.photo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={DEMO_SHOP.owner.photo}
+              alt=""
+              className="h-12 w-12 rounded-full object-cover"
+            />
+          ) : null}
+          <div>
+            <p className="text-sm font-semibold">{DEMO_SHOP.owner.fullName}</p>
+            <p className="text-xs text-muted">{DEMO_SHOP.owner.title}</p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
           <a
-            href={`https://wa.me/${DEMO_SHOP.phone.replace(/\D/g, "")}`}
+            href={`https://wa.me/${wa}`}
             className="btn-primary w-full py-3"
             target="_blank"
             rel="noreferrer"
