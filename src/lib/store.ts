@@ -72,14 +72,22 @@ export type Shop = {
   address: string;
   logo?: string;
   tagline?: string;
+  coverImage?: string;
 };
 
+/** Max 2 images + 1 short video per stage */
+export const MAX_IMAGES_PER_STAGE = 2;
+export const MAX_VIDEOS_PER_STAGE = 1;
+
 export const DEMO_SHOP: Shop = {
-  slug: "aba-craft-atelier",
-  name: "Aba Craft Atelier",
+  slug: "atelier-noir",
+  name: "Atelier Noir",
   phone: "+234 803 000 0000",
-  address: "Aba, Abia State",
-  tagline: "Bespoke tailoring · clear progress",
+  address: "Studio district · By appointment",
+  tagline: "Bespoke tailoring with clear progress",
+  logo: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=200&h=200&fit=crop&q=80",
+  coverImage:
+    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1400&q=80",
 };
 
 export const DEMO_ORDERS: Order[] = [
@@ -98,13 +106,18 @@ export const DEMO_ORDERS: Order[] = [
     price: 45000,
     dueDate: "2026-11-14",
     stage: "Sewing",
-    note: "Client prefers matte buttons",
+    note: "Fitting scheduled Thursday 2pm",
     mediaByStage: {
       "Order received": [
         {
           type: "image",
           url: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
           caption: "Fabric confirmed",
+        },
+        {
+          type: "image",
+          url: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800&q=80",
+          caption: "Reference style",
         },
       ],
       Cutting: [
@@ -113,12 +126,22 @@ export const DEMO_ORDERS: Order[] = [
           url: "https://images.unsplash.com/photo-1558171813-4c0880cf059b?w=800&q=80",
           caption: "Pieces cut",
         },
+        {
+          type: "video",
+          url: "https://images.unsplash.com/photo-1558171813-4c0880cf059b?w=800&q=80",
+          caption: "Cut walkthrough (clip)",
+        },
       ],
       Sewing: [
         {
           type: "image",
           url: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80",
           caption: "Body in progress",
+        },
+        {
+          type: "image",
+          url: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
+          caption: "Sleeve detail",
         },
       ],
     },
@@ -144,6 +167,16 @@ export const DEMO_ORDERS: Order[] = [
           type: "image",
           url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80",
           caption: "Finished piece",
+        },
+        {
+          type: "image",
+          url: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&q=80",
+          caption: "Detail shot",
+        },
+        {
+          type: "video",
+          url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80",
+          caption: "360° preview (clip)",
         },
       ],
     },
@@ -207,6 +240,11 @@ export const DEMO_SHOWROOM: ShowroomItem[] = [
 
 export function stageIndex(stage: Stage) {
   return STAGES.indexOf(stage);
+}
+
+export function findOrder(code: string) {
+  const normalized = code.trim().toUpperCase();
+  return DEMO_ORDERS.find((o) => o.id.toUpperCase() === normalized);
 }
 
 export function formatNaira(n?: number) {

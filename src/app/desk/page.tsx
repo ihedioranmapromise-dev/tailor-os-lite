@@ -15,8 +15,7 @@ export default function DeskPage() {
   const [orders, setOrders] = useState<Order[]>(DEMO_ORDERS);
 
   const sorted = useMemo(
-    () =>
-      [...orders].sort((a, b) => a.dueDate.localeCompare(b.dueDate)),
+    () => [...orders].sort((a, b) => a.dueDate.localeCompare(b.dueDate)),
     [orders]
   );
 
@@ -33,13 +32,26 @@ export default function DeskPage() {
 
   return (
     <div className="min-h-screen pb-16">
-      <header className="sticky top-0 z-10 border-b border-line bg-white/90 backdrop-blur">
+      <header className="sticky top-0 z-10 border-b border-white/50 bg-white/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-          <div>
-            <p className="text-xs font-medium text-muted">Desk</p>
-            <p className="text-sm font-semibold">{DEMO_SHOP.name}</p>
+          <div className="flex items-center gap-3">
+            {DEMO_SHOP.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={DEMO_SHOP.logo}
+                alt=""
+                className="h-10 w-10 rounded-xl object-cover ring-1 ring-black/5"
+              />
+            ) : null}
+            <div>
+              <p className="text-[11px] font-medium text-muted">Desk</p>
+              <p className="text-sm font-semibold">{DEMO_SHOP.name}</p>
+            </div>
           </div>
           <div className="flex gap-2">
+            <Link href="/track" className="btn-ghost text-xs">
+              Track
+            </Link>
             <Link href={`/s/${DEMO_SHOP.slug}`} className="btn-secondary text-xs">
               Showroom
             </Link>
@@ -51,10 +63,10 @@ export default function DeskPage() {
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-6">
-        <div className="mb-5 flex items-end justify-between gap-3">
+        <div className="mb-6 flex items-end justify-between gap-3">
           <div>
             <h1 className="text-xl font-semibold tracking-tight">Today’s queue</h1>
-            <p className="text-sm text-muted">{sorted.length} open jobs · sorted by due date</p>
+            <p className="text-sm text-muted">{sorted.length} jobs · by due date</p>
           </div>
           <button type="button" className="btn-primary text-xs sm:text-sm" disabled>
             New order
@@ -63,10 +75,13 @@ export default function DeskPage() {
 
         <div className="space-y-3">
           {sorted.map((o) => (
-            <article key={o.id} className="card p-4">
+            <article
+              key={o.id}
+              className="card-solid p-4 transition hover:shadow-md"
+            >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-mono text-muted">{o.id}</p>
+                  <p className="font-mono text-[11px] text-muted">{o.id}</p>
                   <h2 className="mt-0.5 text-base font-semibold">
                     {o.clientFirstName} · {o.style}
                   </h2>
@@ -83,7 +98,7 @@ export default function DeskPage() {
                   Open job
                 </Link>
                 <Link href={`/status/${o.id}`} className="btn-secondary text-xs">
-                  Client status
+                  Client view
                 </Link>
                 <button
                   type="button"
@@ -97,10 +112,6 @@ export default function DeskPage() {
             </article>
           ))}
         </div>
-
-        <p className="mt-8 text-center text-xs text-muted">
-          Demo only — changes stay in this browser session
-        </p>
       </main>
     </div>
   );
