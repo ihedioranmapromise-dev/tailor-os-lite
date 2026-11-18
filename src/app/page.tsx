@@ -12,18 +12,15 @@ export default function HomePage() {
             </span>
             <div>
               <p className="text-sm font-semibold tracking-tight">Tailor OS Lite</p>
-              <p className="text-[10px] text-muted">Order desk · Status · Showroom</p>
+              <p className="text-[10px] text-muted">Your space · Desk · Client site</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/track" className="btn-ghost text-xs hidden sm:inline-flex">
-              Track order
+            <Link href="/login" className="btn-ghost text-xs hidden sm:inline-flex">
+              Sign in
             </Link>
-            <Link href="/desk" className="btn-secondary text-xs sm:text-sm">
-              Demo desk
-            </Link>
-            <Link href={`/s/${DEMO_SHOP.slug}`} className="btn-primary text-xs sm:text-sm">
-              Showroom
+            <Link href="/signup" className="btn-primary text-xs sm:text-sm">
+              Get your space
             </Link>
           </div>
         </div>
@@ -34,25 +31,25 @@ export default function HomePage() {
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accentSoft/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-accent">
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-              Multi-tenant · Mobile-first
+              Login · Brand · Desk · Client site
             </p>
             <h1 className="mt-5 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
-              The calm order desk for tailors who already live on WhatsApp.
+              Sign in. Own your space. Your clients see your brand — not a generic tool.
             </h1>
             <p className="mt-4 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
-              Clients track real stages — cutting, sewing, pressing — with photos and short
-              clips. You run one clear queue. Your showroom looks like a brand, not a chat
-              archive.
+              Email + password opens your admin. Upload logo and photos, set colours and
+              layout, run the production desk, share one public link. Mobile-first for the
+              floor and for WhatsApp clients.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/desk" className="btn-primary px-5 py-3">
-                Open the desk
+              <Link href="/signup" className="btn-primary px-5 py-3">
+                Create your space
               </Link>
-              <Link href="/track" className="btn-secondary px-5 py-3">
-                Track with code
+              <Link href="/login" className="btn-secondary px-5 py-3">
+                Sign in
               </Link>
-              <Link href="/status/TO-2026-0142" className="btn-ghost">
-                Sample status →
+              <Link href={`/s/${DEMO_SHOP.slug}`} className="btn-ghost">
+                Sample client site →
               </Link>
             </div>
           </div>
@@ -61,39 +58,16 @@ export default function HomePage() {
             <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-accent/10 via-transparent to-ink/5 blur-2xl" />
             <div className="card relative overflow-hidden p-1">
               <div className="rounded-[1.15rem] bg-gradient-to-b from-[#0f1419] to-[#1a2e28] p-6 text-white sm:p-8">
-                <div className="flex items-center gap-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={DEMO_SHOP.logo}
-                    alt=""
-                    className="h-12 w-12 rounded-xl object-cover ring-2 ring-white/20"
-                  />
-                  <div>
-                    <p className="text-sm font-semibold">{DEMO_SHOP.name}</p>
-                    <p className="text-xs text-white/60">{DEMO_SHOP.tagline}</p>
-                  </div>
-                </div>
-                <div className="mt-6 rounded-xl bg-white/10 p-4 backdrop-blur">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/50">
-                    Live order
-                  </p>
-                  <p className="mt-1 font-mono text-sm">TO-2026-0142</p>
-                  <p className="mt-2 text-lg font-semibold">Chinedu · Senator</p>
-                  <div className="mt-4 flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-sm text-emerald-300">Sewing in progress</span>
-                  </div>
-                </div>
-                <div className="mt-4 flex gap-2">
-                  {["Received", "Cut", "Sew", "Press", "Ready"].map((s, i) => (
-                    <div
-                      key={s}
-                      className={`h-1.5 flex-1 rounded-full ${
-                        i <= 2 ? "bg-emerald-400" : "bg-white/15"
-                      }`}
-                    />
-                  ))}
-                </div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/50">
+                  After login
+                </p>
+                <p className="mt-2 text-lg font-semibold">Admin → Brand → Desk → /s/your-shop</p>
+                <ul className="mt-4 space-y-2 text-sm text-white/75">
+                  <li>· File upload for logo & stage photos (not URL paste)</li>
+                  <li>· Colours · font pair · layout preset</li>
+                  <li>· Order queue with stage timeline</li>
+                  <li>· Client track + showroom under your name</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -102,16 +76,16 @@ export default function HomePage() {
         <div className="mt-16 grid gap-4 sm:grid-cols-3">
           {[
             {
-              t: "Track with a code",
-              d: "Client enters TO-2026-0142 and sees the full stage timeline — no app install.",
+              t: "Your space only",
+              d: "Sign up with email and password. Desk and brand live in your admin — not a shared guestbook.",
             },
             {
-              t: "Photos + short video",
-              d: "Up to two pictures and one clip per stage. Progress you can see, not just read.",
+              t: "Mini website",
+              d: "Public showroom and track pages wear your logo and colours. Clients never need an app.",
             },
             {
-              t: "Showroom that sells",
-              d: "Portfolio with your logo, pieces, prices, and a WhatsApp order button.",
+              t: "Production desk",
+              d: "Stages, measurements, status links, photo uploads per stage — built for phone.",
             },
           ].map((x) => (
             <div key={x.t} className="card-solid p-5 transition hover:shadow-lg">
@@ -120,6 +94,17 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+
+        <p className="mt-12 text-center text-xs text-muted">
+          Demo walkthrough also:{" "}
+          <Link href="/desk" className="text-accent font-medium">
+            sample desk
+          </Link>{" "}
+          ·{" "}
+          <Link href="/status/TO-2026-0142" className="text-accent font-medium">
+            sample status
+          </Link>
+        </p>
       </main>
     </div>
   );

@@ -7,9 +7,11 @@ import {
   DEMO_ORDERS,
   STAGES,
   formatNaira,
+  type MediaItem,
   type Order,
   type Stage,
 } from "@/lib/store";
+import { fileToDataUrl } from "@/lib/brand";
 
 export default function JobPage() {
   const params = useParams();
@@ -17,6 +19,7 @@ export default function JobPage() {
   const initial = useMemo(() => DEMO_ORDERS.find((o) => o.id === id), [id]);
   const [order, setOrder] = useState<Order | undefined>(initial);
   const [copied, setCopied] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   if (!order) {
     return (
@@ -43,6 +46,32 @@ export default function JobPage() {
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function onUpload(file: File | null) {
+    if (!file || !order) return;
+    setUploading(true);
+    try {
+      const dataUrl = await fileToDataUrl(file);
+      const item: MediaItem = {
+        type: file.type.startsWith("video") ? "video" : "image",
+        url: dataUrl,
+        caption: "Uploaded from phone",
+      };
+      setOrder((o) => {
+        if (!o) return o;
+        const prev = o.mediaByStage[o.stage] || [];
+        return {
+          ...o,
+          mediaByStage: {
+            ...o.mediaByStage,
+            [o.stage]: [...prev, item].slice(0, 3),
+          },
+        };
+      });
+    } finally {
+      setUploading(false);
+    }
   }
 
   const m = order.measurements;
@@ -81,9 +110,6 @@ export default function JobPage() {
               <dd className="font-medium">{formatNaira(order.price)}</dd>
             </div>
           </dl>
-          {order.note && (
-            <p className="mt-3 rounded-xl bg-paper px-3 py-2 text-sm text-muted">{order.note}</p>
-          )}
         </div>
 
         <div className="card p-5">
@@ -103,8 +129,21 @@ export default function JobPage() {
         <div className="card p-5">
           <h2 className="text-sm font-semibold">Stage media</h2>
           <p className="mt-1 text-xs text-muted">
-            Photos or short video clips attached to stages (demo placeholders).
+            Upload from phone — current stage: {order.stage}
           </p>
+          <label className="mt-3 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-line bg-paper/50 px-4 py-6 text-center">
+            <span className="text-sm font-semibold text-ink">
+              {uploading ? "Uploading…" : "Tap to upload photo or short video"}
+            </span>
+            <span className="mt-1 text-xs text-muted">File picker — not a URL field</span>
+            <input
+              type="file"
+              accept="image/*,video/*"
+              className="hidden"
+              disabled={uploading}
+              onChange={(e) => onUpload(e.target.files?.[0] || null)}
+            />
+          </label>
           <div className="mt-3 space-y-3">
             {STAGES.map((stage) => {
               const media = order.mediaByStage[stage];
@@ -130,14 +169,16 @@ export default function JobPage() {
                 </div>
               );
             })}
-            {!Object.values(order.mediaByStage).some((x) => x?.length) && (
-              <p className="text-sm text-muted">No media on this order yet.</p>
-            )}
           </div>
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row">
-          <button type="button" className="btn-primary flex-1" onClick={advance} disabled={order.stage === "Delivered"}>
+          <button
+            type="button"
+            className="btn-primary flex-1"
+            onClick={advance}
+            disabled={order.stage === "Delivered"}
+          >
             Advance stage
           </button>
           <button type="button" className="btn-secondary flex-1" onClick={copyLink}>

@@ -1,30 +1,16 @@
 # Tailor OS Lite
 
-Multi-tenant, mobile-first order desk for tailors.
+Production desk + branded client mini-site for sewing / fashion houses.
 
-- **Desk** — queue, job cards, advance stage, copy status link
-- **Status tracker** — client-facing stages + optional photo/video per stage
-- **Showroom** — public portfolio with WhatsApp CTA
-- **Shop settings** — name, phone, address (demo read-only)
+## Demo flow (vision)
 
-## Demo paths
+1. **Sign up / login** (`/signup`, `/login`) — email + password → your space
+2. **Admin** (`/admin`) — hub: desk, brand, public site
+3. **Settings** (`/settings`) — logo/cover/owner **file upload**, colours, font, layout preset, business fields
+4. **Desk** (`/desk`) — queue, advance stages, open job, **upload stage media from phone**
+5. **Client site** (`/s/atelier-noir`) — showroom
+6. **Track / status** — order code timeline
 
-- `/` — product landing
-- `/desk` — owner desk
-- `/desk/TO-2026-0142` — job card
-- `/status/TO-2026-0142` — client status tracker
-- `/s/aba-craft-atelier` — showroom
-- `/settings` — shop setup fields
+Demo auth and brand use **localStorage** (this browser only). Production needs real auth, DB, and object storage.
 
-## Stack
-
-Next.js 14 · TypeScript · Tailwind · in-memory demo data
-
-## Run
-
-```bash
-npm install
-npm run dev
-```
-
-Deploy on Vercel: import this repo.
+Live: https://tailor-os-lite.vercel.app/

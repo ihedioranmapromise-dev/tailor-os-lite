@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   DEMO_ORDERS,
   DEMO_SHOP,
@@ -10,9 +10,21 @@ import {
   type Order,
   type Stage,
 } from "@/lib/store";
+import { getSession } from "@/lib/session";
+import { getBrand } from "@/lib/brand";
 
 export default function DeskPage() {
   const [orders, setOrders] = useState<Order[]>(DEMO_ORDERS);
+  const [shopName, setShopName] = useState(DEMO_SHOP.name);
+  const [logo, setLogo] = useState(DEMO_SHOP.logo);
+
+  useEffect(() => {
+    const sess = getSession();
+    const brand = getBrand();
+    if (sess?.shopName) setShopName(sess.shopName);
+    if (brand.shopName) setShopName(brand.shopName);
+    if (brand.logoDataUrl) setLogo(brand.logoDataUrl);
+  }, []);
 
   const sorted = useMemo(
     () => [...orders].sort((a, b) => a.dueDate.localeCompare(b.dueDate)),
@@ -35,28 +47,28 @@ export default function DeskPage() {
       <header className="sticky top-0 z-10 border-b border-white/50 bg-white/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            {DEMO_SHOP.logo ? (
+            {logo ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={DEMO_SHOP.logo}
+                src={logo}
                 alt=""
                 className="h-10 w-10 rounded-xl object-cover ring-1 ring-black/5"
               />
             ) : null}
             <div>
               <p className="text-[11px] font-medium text-muted">Desk</p>
-              <p className="text-sm font-semibold">{DEMO_SHOP.name}</p>
+              <p className="text-sm font-semibold">{shopName}</p>
             </div>
           </div>
           <div className="flex gap-2">
-            <Link href="/track" className="btn-ghost text-xs">
-              Track
+            <Link href="/admin" className="btn-ghost text-xs">
+              Admin
             </Link>
             <Link href={`/s/${DEMO_SHOP.slug}`} className="btn-secondary text-xs">
-              Showroom
+              Site
             </Link>
             <Link href="/settings" className="btn-secondary text-xs">
-              Shop
+              Brand
             </Link>
           </div>
         </div>
@@ -75,10 +87,7 @@ export default function DeskPage() {
 
         <div className="space-y-3">
           {sorted.map((o) => (
-            <article
-              key={o.id}
-              className="card-solid p-4 transition hover:shadow-md"
-            >
+            <article key={o.id} className="card-solid p-4 transition hover:shadow-md">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-mono text-[11px] text-muted">{o.id}</p>
